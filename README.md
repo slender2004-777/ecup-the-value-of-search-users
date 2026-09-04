@@ -94,7 +94,7 @@ $$
 ## Структура репозитория
 
 ```
-quality_control/
+solution/
 ├── data/ # исходные данные (не хранятся в репо)
 │ └── README.md # инструкция по загрузке train.parquet и sample_submit.csv
 │
