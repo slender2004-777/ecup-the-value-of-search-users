@@ -94,32 +94,29 @@ $$
 ## Структура репозитория
 
 ```
-data/                            — исходные данные (не распространяются)
-  README.md                      — куда положить train.parquet и sample_submit.csv
-src/
-  01_eda.py                      — аудит данных, инварианты, сезонность, EDA,
-                                    бейзлайны, quick-модель LightGBM
-  02_pipeline.py                 — панель из 12 срезов, ~250 признаков,
-                                    ансамбль LGBM+XGB+Cat, тюнинг формулы,
-                                    файлы на сетке beta
-  03_dense_panel.py              — плотная недельная панель (~49 срезов,
-                                    ~11 млн строк), финальный ансамбль,
-                                    сабмиты на полной сетке beta
-  04_calibration.py              — масштабирование, квадратичный фит
-                                    калибровки по точкам лидерборда,
-                                    лог-бленд (CLI-модуль)
-make_figures.py                  — регенерация графиков в reports/figures
-reports/
-  feature_importance.csv         — топ признаков финальной модели (gain)
-  figures/
-    timeline.png                 — дневной GMV + DAU за весь период
-    target_distribution.png      — распределение 30-дневного таргета (log1p)
-    retention.png                — P(GMV>0) и E[GMV] по recency-бакетам
-    feature_importance.png       — топ-30 признаков по gain
-    calibration_curve.png        — парабола RMSLE²(ln k) по точкам LB
-README.md
-requirements.txt
-.gitignore
+quality_control/
+├── data/ # исходные данные (не хранятся в репо)
+│ └── README.md # инструкция по загрузке train.parquet и sample_submit.csv
+│
+├── src/ # основной код
+│ ├── 01_eda.py # EDA, инварианты, сезонность, бейзлайны, LightGBM
+│ ├── 02_pipeline.py # панель 12 срезов → ~250 признаков, ансамбль LGBM+XGB+Cat, тюнинг beta
+│ ├── 03_dense_panel.py # плотная недельная панель (~49 срезов, 11M строк), финальный ансамбль
+│ └── 04_calibration.py # калибровка (квадратичный фит по точкам LB, лог-бленд)
+│
+├── reports/ # результаты и визуализации
+│ ├── feature_importance.csv # топ признаков финальной модели (gain)
+│ └── figures/ # графики для отчёта
+│ ├── timeline.png # дневной GMV + DAU
+│ ├── target_distribution.png# распределение 30-дневного таргета (log1p)
+│ ├── retention.png # P(GMV>0) и E[GMV] по recency-бакетам
+│ ├── feature_importance.png # топ-30 признаков по gain
+│ └── calibration_curve.png # парабола RMSLE²(ln k) по точкам LB
+│
+├── make_figures.py # скрипт для регенерации всех графиков
+├── README.md # этот файл
+├── requirements.txt # зависимости
+└── .gitignore # игнорируемые файлы
 ```
 
 ## Воспроизведение
